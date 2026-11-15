@@ -1,17 +1,16 @@
-*{
+* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    /*gatau sumpa mau pake font apa*/
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
-body{
-    background-color: ;
-    color: ;
+body {
+    background-color: #ffffff;
+    color: #111111;
 }
 
-.bookseat{
+.bookseat {
     max-width: 480px;
     margin: 0 auto;
     background-color: #ffffff;
@@ -19,7 +18,7 @@ body{
     position: relative;
 }
 
-.page-info{
+.page-info {
     font-size: 12px;
     color: #777777;
     text-transform: uppercase;
@@ -29,7 +28,7 @@ body{
     padding-bottom: 2px;
 }
 
-.main-title{
+.main-title {
     text-align: center;
     font-size: 26px;
     font-weight: 800;
@@ -37,7 +36,48 @@ body{
     color: #111111;
 }
 
-
-.material-symbols-outlined{
+.material-symbols-outlined {
     color: #000000;
+}
+
+.sub-title {
+    margin-bottom: 12px;
+}
+
+.seat-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px solid #222222;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+}
+
+.seat-info p {
+    font-size: 14px;
+    color: #555555;
+    margin-top: 4px;
+}
+
+.book-btn {
+    padding: 8px 16px;
+    border: 2px solid #222222;
+    border-radius: 10px;
+    background-color: #aaaaaa;
+    color: #111111;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.book-btn:hover:not(:disabled) {
+    background-color: #777777;
+    color: #ffffff;
+}
+
+.book-btn:disabled {
+    background-color: #eeeeee;
+    color: #999999;
+    border-color: #cccccc;
+    cursor: not-allowed;
 }
