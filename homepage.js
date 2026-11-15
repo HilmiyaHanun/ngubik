@@ -1,68 +1,45 @@
-//buat kursi tersedia
 const defaultSeatsData = [
-    {
-        id: 1,
-        type: "Table",
-        capacity: 4,
-        available: true
-    },
-    {
-        id: 2,
-        type: "Table",
-        capacity: 4,
-        available: true
-    },
-    {
-        id: 3,
-        type: "Seat",
-        capacity: 1,
-        available: true
-    },
-    {
-        id: 4,
-        type: "Seat",
-        capacity: 1,
-        available: false
-    }
+    { id: 1, type: "Table", capacity: 4, available: true },
+    { id: 2, type: "Table", capacity: 4, available: true },
+    { id: 3, type: "Seat", capacity: 1, available: true },
+    { id: 4, type: "Seat", capacity: 1, available: false }
 ];
 
-// buat cek apa ada data kursi di local storage
-if (localStorage.getItem("seatsData") === null){
-    localStorage.setItem(
-        "seatsData",
-        JSON.stringify(defaultSeatsData)
-    );
+// Cek apakah sudah ada data kursi di localStorage
+if (localStorage.getItem("seatsData") === null) {
+    localStorage.setItem("seatsData", JSON.stringify(defaultSeatsData));
 }
 
-//elemen html buat di save
 const nameInput = document.getElementById("name");
 const saveButton = document.getElementById("saveName");
 const navigationButtons = document.querySelectorAll(".navigation");
 
-//cek sebelumnya pernah ada datanya ga
+// Tampilkan nama jika sebelumnya sudah pernah disimpan
 const savedName = localStorage.getItem("customerName");
-if (savedName !== null){
+if (savedName !== null && nameInput) {
     nameInput.value = savedName;
 }
 
-//nyimpen nama 
-saveButton.addEventListener("click", function) (){
-    const customerName = nameInput.value.trim();
-    if (customerName === ""){
-        alert("Silahkan masukkan nama terlebih dahulu!");
-        return;
-    }
-    localStorage.setItem("customerName", customerName);
-    alert ("Nama berhasil disimpan!");
-});
+// Simpan nama ke localStorage
+if (saveButton) {
+    saveButton.addEventListener("click", function () {
+        const customerName = nameInput.value.trim();
+        if (customerName === "") {
+            alert("Silahkan masukkan nama terlebih dahulu!");
+            return;
+        }
+        localStorage.setItem("customerName", customerName);
+        alert("Nama berhasil disimpan!");
+    });
+}
 
-navigationButtons.forEach(function (button)){
-    button.addEventListener("click", function (event)) {
+// Cegah pindah halaman kalau nama belum disimpan
+navigationButtons.forEach(function (button) {
+    button.addEventListener("click", function (event) {
         const customerName = localStorage.getItem("customerName");
-        if (customerName === null || customerName.trim() === ""){
+        if (customerName === null || customerName.trim() === "") {
             event.preventDefault();
-            alert ("Silahkan simpan nama terlebih dahulu!");
+            alert("Silahkan isi dan simpan nama terlebih dahulu!");
         }
     });
 });
-
