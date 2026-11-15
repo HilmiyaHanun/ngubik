@@ -1,3 +1,4 @@
+console.log("JavaScript berhasil terhubung!");
 //buat kursi tersedia
 const defaultSeatsData = [
     {
