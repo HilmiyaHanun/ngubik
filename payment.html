@@ -6,15 +6,13 @@
     <title>Payment</title>
     <link rel="stylesheet" href="payment.css">
 </head>
-
 <body>
-    
     <div class="payment">
         <span class="page-info">PAGE PAYMENT</span>
 
         <h1 class="main-title">PAYMENT</h1>
 
-        <!--summary nama sama total-->
+        <!-- Summary nama dan total -->
         <div class="summary">
             <div class="summaryInfo">
                 <span>Nama Pemesan:</span>
@@ -27,33 +25,33 @@
             </div>
         </div>
 
-        <!--Buat nentuin waktu pick up-->
+        <!-- Waktu pick up -->
         <div class="pickup">
             <label for="pickupTime">Pick Up (07:00 - 15:00) :</label>
-            <input type="time" id="pickupTime">
-            <p id="timeStatus" class="status-text"></p>
+            <input type="time" id="pickupTime" min="07:00" max="15:00">
         </div>
+        <p id="timeStatus" class="status-text"></p>
 
-        <!--notesnya-->
+        <!-- Notes -->
         <div class="notes">
             <label for="orderNotes">Notes (Optional) :</label>
-            <textarea name="" id="orderNotes">Tambah keterangan disini...</textarea>
+            <textarea id="orderNotes" rows="3" placeholder="Tambah keterangan disini..."></textarea>
         </div>
 
         <br>
 
-        <!--paymentnya-->
+        <!-- Metode pembayaran -->
         <div class="form-group">
             <p>Pilih metode pembayaran :</p>
             
             <div class="payment-options">
-                <label class="radio-card locked" id="labelCash">
-                    <input type="radio" name="paymentMethod" value="cash" id="radioCash">
+                <label class="radio-card" id="labelCash">
+                    <input type="radio" name="paymentMethod" value="cash" id="radioCash" disabled>
                     <span>Cash</span>
                 </label>
 
-                <label class="radio-card locked" id="labelQris">
-                    <input type="radio" name="paymentMethod" value="qris" id="radioQris">
+                <label class="radio-card" id="labelQris">
+                    <input type="radio" name="paymentMethod" value="qris" id="radioQris" disabled>
                     <span>QRIS</span>
                 </label>
             </div>
@@ -63,9 +61,10 @@
                 <p>Scan barcode di atas untuk membayar</p>
             </div>
 
-            <a href="homepage.html" class="sub-navigation">DONE</a>
-           
+            <a href="homepage.html" class="sub-navigation" id="doneBtn">DONE</a>
         </div>
     </div>
+
+    <script src="payment.js"></script>
 </body>
 </html>
