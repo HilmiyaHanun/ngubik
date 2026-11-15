@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <link rel="stylesheet" href="payment.css">
+</head>
+
+<body>
+    
+    <div class="payment">
+        <span class="page-info">PAGE PAYMENT</span>
+
+        <h1 class="main-title">PAYMENT</h1>
+
+        <!--summary nama sama total-->
+        <div class="summary">
+            <div class="summaryInfo">
+                <span>Nama Pemesan:</span>
+                <strong id="displayCustomerName">-</strong>
+            </div>
+
+            <div class="summaryInfo">
+                <span>Total Belanja:</span>
+                <strong id="displayCartTotal">Rp 0</strong>
+            </div>
+        </div>
+
+        <!--Buat nentuin waktu pick up-->
+        <div class="pickup">
+            <label for="pickupTime">Pick Up (07:00 - 15:00) :</label>
+            <input type="time" id="pickupTime">
+            <p id="timeStatus" class="status-text"></p>
+        </div>
+
+        <!--notesnya-->
+        <div class="notes">
+            <label for="orderNotes">Notes (Optional) :</label>
+            <textarea name="" id="orderNotes">Tambah keterangan disini...</textarea>
+        </div>
+
+        <br>
+
+        <!--paymentnya-->
+        <div class="form-group">
+            <p>Pilih metode pembayaran :</p>
+            
+            <div class="payment-options">
+                <label class="radio-card locked" id="labelCash">
+                    <input type="radio" name="paymentMethod" value="cash" id="radioCash">
+                    <span>Cash</span>
+                </label>
+
+                <label class="radio-card locked" id="labelQris">
+                    <input type="radio" name="paymentMethod" value="qris" id="radioQris">
+                    <span>QRIS</span>
+                </label>
+            </div>
+
+            <div class="qris-box" id="qrisBox">
+                <img src="scan qris.jpg" alt="barcode QRIS">
+                <p>Scan barcode di atas untuk membayar</p>
+            </div>
+
+            <a href="homepage.html" class="sub-navigation">DONE</a>
+           
+        </div>
+    </div>
+</body>
+</html>
