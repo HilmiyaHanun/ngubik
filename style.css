@@ -87,6 +87,8 @@ body{
     border-radius: 12px; 
 }
 
+
+
 /* PAYMENT */
 
 *{
@@ -216,6 +218,7 @@ body{
 }
 
 
+
 /* HOMEPAGE */
 
 *{
@@ -301,6 +304,7 @@ textarea{
 }
 
 
+
 /* BOOKSEAT */
 
 *{
@@ -346,6 +350,7 @@ body{
 .material-symbols-outlined{
     color: #000000;
 }
+
 
 
 /* BOOKSEAT CONFIRM */
