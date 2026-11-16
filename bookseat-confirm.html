@@ -57,125 +57,96 @@
     </div>
 
     <script>
-      const customerName = localStorage.getItem("customerName");
-      const selectedSeat = JSON.parse(
-        localStorage.getItem("selectedSeat") || "null"
-      );
-      document.getElementById("customerName").textContent =
-        customerName || "-";
+  const customerName = localStorage.getItem("customerName");
+  // PERBAIKAN 1: 'S' besar pada localStorage dan ganti '}}' menjadi '||'
+  const selectedSeat = JSON.parse(localStorage.getItem("selectedSeat") || "null");
 
-      if (selectedSeat) {
-        const name = selectedSeat.name ||
-                     selectedSeat.seatName ||
-                     selectedSeat.id ||
-                     "-";
-        const capacity = Number(
-          selectedSeat.capacity || selectedSeat.people || 1
-        );
+  document.getElementById("customerName").textContent = customerName || "-";
 
-        document.getElementById("seatName").textContent = 
-          String(name).toUpperCase();
+  if (selectedSeat) {
+    const name = selectedSeat.name || selectedSeat.seatName || selectedSeat.id || "-";
+    const capacity = Number(selectedSeat.capacity || selectedSeat.people || 1);
 
-        document.getElementById("seatCapacity").textContent =
-          capacity === 1
-              ? "Single person"
-              : `Seat for ${capacity} people`;
-      } else {
-        alert("No seat selected!");
-        window.location.href = "bookseat.html";
-      }
+    document.getElementById("seatName").textContent = String(name).toUpperCase();
 
-      const timeInput = document.getElementById("timeBook");
-      const durationInput = document.getElementById("duration");
-      const timeError = document.getElementById("timeError");
-      const durationError = document.getElementById("durationError");
-      const bookButton = document.getElementById("bookButton");
+    // PERBAIKAN 2: Gunakan backtick (`) bukan tanda kutip satu (')
+    document.getElementById("seatCapacity").textContent =
+      capacity === 1 ? "Single person" : `Seat for ${capacity} people`;
+  } else {
+    // PERBAIKAN 3: 'alert' bukan 'alret'
+    alert("No seat selected!");
+    window.location.href = "bookseat.html";
+  }
 
-      function validateTime() {
-        const time = timeInput.value;
+  const timeInput = document.getElementById("timeBook");
+  const durationInput = document.getElementById("duration");
+  const timeError = document.getElementById("timeError");
+  const durationError = document.getElementById("durationError");
+  const bookButton = document.getElementById("bookButton");
 
-        if (time === "") {
-          timeError.textContent = "Please enter booking time.";
-          return false;
-        }
+  function validateTime() {
+    const time = timeInput.value;
+    if (time === "") {
+      timeError.textContent = "Please enter booking time.";
+      return false;
+    }
+    if (time < "07:00" || time > "15:00") {
+      timeError.textContent = "Invalid time! Booking is only available from 07:00 to 15:00.";
+      return false;
+    }
+    timeError.textContent = "";
+    return true;
+  }
 
-        if (time < "07:00" || time > "15:00") {
-          timeError.textContent =
-            "Invalid time! Booking is only available from 07:00 to 15:00.";
-          return false;
-        }
-        timeError.textContent = "";
+  function validateDuration() {
+    const duration = durationInput.value;
+    if (duration === "" || !Number.isInteger(Number(duration)) || Number(duration) < 1) {
+      durationError.textContent = "Duration must be at least 1 minute.";
+      return false;
+    }
+    // PERBAIKAN 4: Tutup fungsi validateDuration() sebelum addEventListener
+    durationError.textContent = "";
+    return true;
+  }
+
+  bookButton.addEventListener("click", function () {
+    const validTime = validateTime();
+    const validDuration = validateDuration();
+
+    if (!validTime || !validDuration) {
+      return;
+    }
+
+    let seatsData = JSON.parse(localStorage.getItem("seatsData") || "[]");
+
+    // PERBAIKAN 5: Huruf besar 'S' pada selectedSeat dan 'N' pada selectedName
+    const selectedName = selectedSeat.name || selectedSeat.seatName || selectedSeat.id;
+
+    const seatIndex = seatsData.findIndex(function (seat) {
+      if (selectedSeat.id !== undefined && seat.id === selectedSeat.id) {
         return true;
       }
+      const seatName = seat.name || seat.seatName || seat.id;
+      return seatName === selectedName;
+    });
 
-      function validateDuration() {
-        const duration = durationInput.value;
+    if (seatIndex === -1) {
+      alert("Seat data not found!");
+      return;
+    }
 
-        if (
-          duration === "" ||
-          !Number.isInteger(Number(duration)) || 
-          Number(duration) < 1
-        ) {
-          durationError.textContent = 
-            "Duration must be at least 1 minute.";
-          return false;
-        }
-        durationError.textContent = "";
-        return true;
-      }
+    if (seatsData[seatIndex].available === false) {
+      alert("Sorry, this seat is unavailable.");
+      window.location.href = "bookseat.html";
+      return;
+    }
 
-      bookButton.addEventListener("click", function() {
-        const validTime = validateTime();
-        const validDuration = validateDuration();
+    seatsData[seatIndex].available = false;
+    localStorage.setItem("seatsData", JSON.stringify(seatsData));
 
-        if(!validTime || !validDuration) { 
-          return;
-        }
-
-        let seatsData = JSON.parse(
-          localStorage.getItem("seatsData") || "[]"
-        );
-
-        const selectedName = 
-          selectedSeat.name || 
-          selectedSeat.seatName || 
-          selectedSeat.id;
-
-        const seatIndex = seatsData.findIndex(function (seat) {
-          if (
-              selectedSeat.id !== undefined && 
-              seat.id === selectedSeat.id
-            ) {
-              return true;
-            }
-
-          const seatName = 
-            seat.name || seat.seatName || seat.id;
-
-          return seatName === selectedName;
-        });
-
-        if (seatIndex === -1) {
-          alert("Seat data not found!");
-          return;
-        }
-
-        if (seatsData[seatIndex].available === false) {
-          alert("Sorry, this seat is unavailable.");
-          window.location.href = "bookseat.html";
-          return; 
-        }
-
-        seatsData[seatIndex].available = false;
-
-        localStorage.setItem(
-          "seatsData", 
-          JSON.stringify(seatsData)
-        );
-
-        alert("Booking successfull!");
-        window.location.href = "index.html";
-      });
-    </script>
+    alert("Booking successful!");
+    window.location.href = "bookseat.html";
+  });
+</script>
   </body>
 </html>
