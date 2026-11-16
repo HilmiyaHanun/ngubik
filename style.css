@@ -430,6 +430,87 @@ body{
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
+
+.confirm-container {
+  padding: 25px;
+}
+
+.confirm container h1 { 
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.confirm-info { 
+  background-color: #f5f5f5; 
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+}
+
+.confirm-info h3 { 
+  margin-top: 5px;
+}
+
+.confirm-info p {
+  margin-bottom: 5px;
+  color: #666;
+}
+
+.confirm-info hr {
+  border: 0;
+  border-top: 1px solid #ddd;
+  margin: 15px 0;
+}
+
+.confirm-form label {
+  display: block;
+  font-weight: bold;
+  margin-top: 15px;
+  margin-bottom: 8px;
+}
+
+.confirm-form input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+.duration-input input {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.duration-input span {
+  white-space: nowrape; 
+}
+
+.error-message {
+  color: red;
+  gont-size: 13px;
+  margin-top: 5px;
+  min-height: 16px;
+}
+
+#bookButton {
+  width: 100%;
+  padding: 14px; 
+  margin-top: 25px;
+  border: none;
+  border-radius: 8px;
+  background-color: #333;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#bookButton:hover {
+  background-color: #555;
+}
 }
 
 #bookButton:hover {
