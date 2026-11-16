@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id"> 
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Seat Confirmation</title>
+    <title> Book Seat Confirmation</title>
+
+    <!-- Penghubungan dengan css dan js utama -->
     <link rel="stylesheet" href="style.css">
     <script src="app.js" defer></script>
   </head>
@@ -11,47 +13,73 @@
   <body>
     <div class="container confirm-container">
       <h1>BOOK SEAT</h1>
-
+      
       <div class="confirm-info">
-        <h3>DETAILED INFORMATION</h3>
-        <p>Customer Name:</p>
+        <h3>DETAILED INFORMATION </h3> 
+        <p>Customer Name: </p>
         <h3 id="customerName">-</h3>
-        <hr>
+        <hr> 
 
-        <p>Selected Seat:</p>
+        <p>Selected Seat: </p>
         <h2 id="seatName">-</h2>
         <p id="seatCapacity">-</p>
       </div>
 
-      <div class="confirm-form">
+      <div Class="confirm-form">
         <label for="timeBook">Time book</label>
-        <input type="time" id="timeBook" min="07:00" max="15:00">
+        <input
+          type="time"
+          id="timeBook"
+          min="07:00"
+          max="15:00"
+        >
         <p id="timeError" class="error-message"></p>
 
         <label for="duration">For</label>
+
         <div class="duration-input">
-          <input type="number" id="duration" min="1" max="120" placeholder="Enter duration">
+          <input
+            type="number"
+            id="duration"
+            min="1"
+            max="120"
+            placeholder="Enter duration"
+          >
           <span>minutes</span>
         </div>
+
         <p id="durationError" class="error-message"></p>
 
-        <button type="button" id="bookButton">Book</button>
+        <button type="button" id="bookButton">
+          Book
+        </button>
       </div>
     </div>
 
     <script>
       const customerName = localStorage.getItem("customerName");
-      const selectedSeat = JSON.parse(localStorage.getItem("selectedSeat") || "null");
-
-      document.getElementById("customerName").textContent = customerName || "-";
+      const selectedSeat = JSON.parse(
+        localStorage.getItem("selectedSeat") || "null"
+      );
+      document.getElementById("customerName").textContent =
+        customerName || "-";
 
       if (selectedSeat) {
-        const name = selectedSeat.name || selectedSeat.seatName || selectedSeat.id || "-";
-        const capacity = Number(selectedSeat.capacity || selectedSeat.people || 1);
+        const name = selectedSeat.name ||
+                     selectedSeat.seatName ||
+                     selectedSeat.id ||
+                     "-";
+        const capacity = Number(
+          selectedSeat.capacity || selectedSeat.people || 1
+        );
 
-        document.getElementById("seatName").textContent = String(name).toUpperCase();
+        document.getElementById("seatName").textContent = 
+          String(name).toUpperCase();
+
         document.getElementById("seatCapacity").textContent =
-          capacity === 1 ? "Single person" : `Seat for ${capacity} people`;
+          capacity === 1
+              ? "Single person"
+              : `Seat for ${capacity} people`;
       } else {
         alert("No seat selected!");
         window.location.href = "bookseat.html";
@@ -65,12 +93,15 @@
 
       function validateTime() {
         const time = timeInput.value;
+
         if (time === "") {
           timeError.textContent = "Please enter booking time.";
           return false;
         }
+
         if (time < "07:00" || time > "15:00") {
-          timeError.textContent = "Invalid time! Booking is only available from 07:00 to 15:00.";
+          timeError.textContent =
+            "Invalid time! Booking is only available from 07:00 to 15:00.";
           return false;
         }
         timeError.textContent = "";
@@ -79,30 +110,48 @@
 
       function validateDuration() {
         const duration = durationInput.value;
-        if (duration === "" || !Number.isInteger(Number(duration)) || Number(duration) < 1) {
-          durationError.textContent = "Duration must be at least 1 minute.";
+
+        if (
+          duration === "" ||
+          !Number.isInteger(Number(duration)) || 
+          Number(duration) < 1
+        ) {
+          durationError.textContent = 
+            "Duration must be at least 1 minute.";
           return false;
         }
         durationError.textContent = "";
         return true;
       }
 
-      bookButton.addEventListener("click", function () {
+      bookButton.addEventListener("click", function() {
         const validTime = validateTime();
         const validDuration = validateDuration();
 
-        if (!validTime || !validDuration) {
+        if(!validTime || !validDuration) { 
           return;
         }
 
-        let seatsData = JSON.parse(localStorage.getItem("seatsData") || "[]");
-        const selectedName = selectedSeat.name || selectedSeat.seatName || selectedSeat.id;
+        let seatsData = JSON.parse(
+          localStorage.getItem("seatsData") || "[]"
+        );
+
+        const selectedName = 
+          selectedSeat.name || 
+          selectedSeat.seatName || 
+          selectedSeat.id;
 
         const seatIndex = seatsData.findIndex(function (seat) {
-          if (selectedSeat.id !== undefined && seat.id === selectedSeat.id) {
-            return true;
-          }
-          const seatName = seat.name || seat.seatName || seat.id;
+          if (
+              selectedSeat.id !== undefined && 
+              seat.id === selectedSeat.id
+            ) {
+              return true;
+            }
+
+          const seatName = 
+            seat.name || seat.seatName || seat.id;
+
           return seatName === selectedName;
         });
 
@@ -114,15 +163,18 @@
         if (seatsData[seatIndex].available === false) {
           alert("Sorry, this seat is unavailable.");
           window.location.href = "bookseat.html";
-          return;
+          return; 
         }
 
         seatsData[seatIndex].available = false;
-        localStorage.setItem("seatsData", JSON.stringify(seatsData));
-        localStorage.removeItem("selectedSeat");
 
-        alert("Booking successful!");
-        window.location.href = "bookseat.html";
+        localStorage.setItem(
+          "seatsData", 
+          JSON.stringify(seatsData)
+        );
+
+        alert("Booking successfull!");
+        window.location.href = "index.html";
       });
     </script>
   </body>
