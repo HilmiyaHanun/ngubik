@@ -1,21 +1,4 @@
-const fallbackSeats = [
-    { id: 1, type: "Table", capacity: 4, available: true },
-    { id: 2, type: "Table", capacity: 4, available: true },
-    { id: 3, type: "Seat", capacity: 1, available: true },
-    { id: 4, type: "Seat", capacity: 1, available: false }
-];
-
-// Ambil data kursi dari localStorage
-function getSeatsData() {
-    const stored = localStorage.getItem("seatsData");
-    if (!stored) {
-        localStorage.setItem("seatsData", JSON.stringify(fallbackSeats));
-        return fallbackSeats;
-    }
-    return JSON.parse(stored);
-}
-
-// Render daftar kursi ke halaman
+// 1. GANTI BAGIAN TOMBOL DI DALAM renderSeats()
 function renderSeats() {
     const container = document.getElementById("seatListContainer");
     if (!container) return;
@@ -34,7 +17,7 @@ function renderSeats() {
             <button 
                 type="button" 
                 class="book-btn" 
-                onclick="${seat.available ? `bookSeat(${index})` : `unbookSeat(${seat.id})`}"
+                onclick="${seat.available ? `bookSeat(${index})` : `unbookSeat(${index})`}"
             >
                 ${seat.available ? 'Book' : 'Unbook'}
             </button>
@@ -42,34 +25,32 @@ function renderSeats() {
     `).join('');
 }
 
-// Fungsi saat tombol Book diklik -> simpan kursi & pindah ke halaman konfirmasi
+// 2. GANTI FUNGSI bookSeat(index) AGAR PINDAH KE HALAMAN KONFIRMASI
 function bookSeat(index) {
     const seats = getSeatsData();
     const seat = seats[index];
 
     if (seat && seat.available) {
-        const selectedSeatData = {
+        localStorage.setItem("selectedSeat", JSON.stringify({
             ...seat,
-            name: `${seat.type} #${seat.id}`
-        };
-        localStorage.setItem("selectedSeat", JSON.stringify(selectedSeatData));
+            name: seat.name || `${seat.type} #${seat.id}`
+        }));
 
-        // Sesuaikan nama file di bawah ini dengan nama file halaman konfirmasimu
+        // PENTING: Ganti "confirm.html" sesuai nama file halaman konfirmasimu!
         window.location.href = "bookseat-confirm.html";
-    }
-}
-
-// Fungsi saat tombol Unbook diklik -> kembalikan status kursi menjadi tersedia
-function unbookSeat(seatId) {
-    let seatsData = getSeatsData();
-    const index = seatsData.findIndex(s => s.id === seatId);
-    if (index !== -1) {
-        seatsData[index].available = true;
-        localStorage.setItem("seatsData", JSON.stringify(seatsData));
-        renderSeats();
     }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
     renderSeats();
 });
+
+// 3. GANTI FUNGSI unbookSeat MENGGUNAKAN index
+function unbookSeat(index) {
+    const seatsData = getSeatsData();
+    if (seatsData[index]) {
+        seatsData[index].available = true;
+        localStorage.setItem("seatsData", JSON.stringify(seatsData));
+        renderSeats();
+    }
+}
