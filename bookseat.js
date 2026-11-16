@@ -60,20 +60,12 @@ document.addEventListener("DOMContentLoaded", () => {
     renderSeats();
 });
 
-function unbookSeat(index) {
-  // 1. Ambil daftar kursi terbaru dari localStorage
+function unbookSeat(seatId) {
   let seatsData = JSON.parse(localStorage.getItem("seatsData") || "[]");
-
-  // 2. Konfirmasi sebelum membatalkan (opsional)
-  const yakin = confirm(`Batalkan pesanan untuk ${seatsData[index].name}?`);
-  if (!yakin) return;
-
-  // 3. Kembalikan status kursi menjadi tersedia
-  seatsData[index].available = true;
-
-  // 4. Simpan ulang perubahan ke localStorage
-  localStorage.setItem("seatsData", JSON.stringify(seatsData));
-
-  // 5. Muat ulang halaman agar status "Sudah Dipesan" langsung berubah
-  location.reload();
+  const index = seatsData.findIndex(s => s.id === seatId);
+  if (index !== -1) {
+    seatsData[index].available = true;
+    localStorage.setItem("seatsData", JSON.stringify(seatsData));
+    location.reload();
+  }
 }
