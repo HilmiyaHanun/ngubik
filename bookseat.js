@@ -34,24 +34,38 @@ function renderSeats() {
             <button 
                 type="button" 
                 class="book-btn" 
-                onclick="bookSeat(${index})"
-                ${seat.available ? '' : 'disabled'}
+                onclick="${seat.available ? `bookSeat(${index})` : `unbookSeat(${seat.id})`}"
             >
-                ${seat.available ? 'Book' : 'Booked'}
+                ${seat.available ? 'Book' : 'Unbook'}
             </button>
         </div>
     `).join('');
 }
 
-// Fungsi saat tombol Book diklik
+// Fungsi saat tombol Book diklik -> simpan kursi & pindah ke halaman konfirmasi
 function bookSeat(index) {
     const seats = getSeatsData();
-    const customerName = localStorage.getItem("customerName") || "Tamu";
+    const seat = seats[index];
 
-    if (seats[index].available) {
-        seats[index].available = false;
-        localStorage.setItem("seatsData", JSON.stringify(seats));
-        alert(`${seats[index].type} #${seats[index].id} berhasil dipesan atas nama ${customerName}!`);
+    if (seat && seat.available) {
+        const selectedSeatData = {
+            ...seat,
+            name: `${seat.type} #${seat.id}`
+        };
+        localStorage.setItem("selectedSeat", JSON.stringify(selectedSeatData));
+
+        // Sesuaikan nama file di bawah ini dengan nama file halaman konfirmasimu
+        window.location.href = "bookseat-confirm.html";
+    }
+}
+
+// Fungsi saat tombol Unbook diklik -> kembalikan status kursi menjadi tersedia
+function unbookSeat(seatId) {
+    let seatsData = getSeatsData();
+    const index = seatsData.findIndex(s => s.id === seatId);
+    if (index !== -1) {
+        seatsData[index].available = true;
+        localStorage.setItem("seatsData", JSON.stringify(seatsData));
         renderSeats();
     }
 }
@@ -59,13 +73,3 @@ function bookSeat(index) {
 document.addEventListener("DOMContentLoaded", () => {
     renderSeats();
 });
-
-function unbookSeat(seatId) {
-  let seatsData = JSON.parse(localStorage.getItem("seatsData") || "[]");
-  const index = seatsData.findIndex(s => s.id === seatId);
-  if (index !== -1) {
-    seatsData[index].available = true;
-    localStorage.setItem("seatsData", JSON.stringify(seatsData));
-    location.reload();
-  }
-}
